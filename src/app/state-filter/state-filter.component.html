@@ -1,0 +1,43 @@
+<div class="mx-5 md:mx-10 flex flex-col md:flex-row justify-between mt-10">
+  <div class="flex items-center gap-x-2">
+    <label>State: </label>
+    <select class="px-4 py-1 w-72 border  border-black" id="state" name="state" [(ngModel)]="selectedState"
+      (change)="onStateChange()">
+      <option value="" disabled selected>Select State</option>
+      <option *ngFor="let state of states" [value]="state.value">{{ state.label }}</option>
+    </select>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-5 mx-5 md:mx-10 mt-5">
+
+  <div class="flex flex-col justify-center px-5 py-5 border border-black rounded-md min-h-[50px]">
+    <h2 class="text-2xl font-bold">{{ positiveCases }}</h2>
+    <p class="text-sm">Total positive cases till date.</p>
+
+  </div>
+
+  <div class="flex flex-col justify-center px-5 py-5 border border-black rounded-md min-h-[50px]">
+    <h2 class="text-2xl font-bold" [ngClass]="{'text-red-500': dailyCases >= 0, 'text-green-500': dailyCases < 0}">
+      {{ dailyCases }}{{ dailyCases >= 0 ? '↑ ' : ' ↓' }}
+    </h2>
+    <p class="text-sm">Daily Rise/fall for the day</p>
+  </div>
+
+
+
+  <div class="flex flex-col justify-center px-5 py-5 border border-black rounded-md min-h-[50px]">
+    <h2 class="text-2xl font-bold"
+      [ngClass]="{'text-red-500': percentChange >= 0, 'text-green-500': percentChange < 0}">{{ percentChange }}%</h2>
+    <p class="text-sm">Percentage change from previous day</p>
+  </div>
+
+  <div class="flex flex-col justify-center px-5 py-5 border border-black rounded-md min-h-[50px]">
+    <h2 class="text-2xl font-bold">{{ recovered === 0 ? 'N/A' : recovered }}</h2>
+    <p class="text-sm">Recovered</p>
+  </div>
+</div>
+
+<app-line-chart [selectedState]="selectedState" [startDate]="formatDateForApi(startDate)"
+  [endDate]="formatDateForApi(endDate)">
+</app-line-chart>
